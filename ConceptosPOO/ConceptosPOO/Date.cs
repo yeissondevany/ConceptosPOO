@@ -17,19 +17,35 @@ namespace ConceptosPOO
         {
             _year = year;  
             _month = CheckMonth(month);
-            _day = CheckDay(day);
+            _day = CheckDay(year, month, day);
 
         }
 
-        private int CheckDay(int day)
+        private int CheckDay(int year, int month, int day)
         {
-            if (day >= 1 && day <= 31)
+
+            
+            if (month == 2 && day == 29 && IsLeapYear(year))
             {
                 return day;
             }
 
-            throw new DayException("Día invalido");
+            int[] daysPertMonth = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
+            if(day >= 1 && day <= daysPertMonth[month])
+            {
+                return day;
+            }
+
+            throw new DayException("El día es invalido");
+
+        }
+
+        private bool IsLeapYear(int year)
+        {
+            //Verificación de año biciesto
+            return year % 400 == 0 || year % 4 == 0 && year % 100 != 0;
+            
         }
 
         private int CheckMonth(int month)
